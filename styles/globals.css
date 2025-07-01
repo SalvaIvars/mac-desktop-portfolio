@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply font-mac h-screen w-screen overflow-hidden bg-neutral-200;
+}
+
+* {
+  cursor: url('/public/icons/cursor.png'), auto !important;
+}
