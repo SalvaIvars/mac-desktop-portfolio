@@ -25,6 +25,24 @@ Simulación interactiva del escritorio de macOS, construido con Next.js + Tailwi
 
 ---
 
+📦 Estructura
+
+.
+├── public/
+│   ├── icons/
+│   ├── pdfs/
+│   └── wallpaper.jpg
+├── components/
+│   ├── Navbar.js
+│   ├── DesktopIcon.js
+│   ├── TextEditWindow.js
+│   └── PdfViewerWindow.js
+├── pages/
+│   └── index.js
+├── styles/
+│   └── globals.css
+---
+
 ## 🛠️ Instalación local
 
 ```bash
@@ -32,3 +50,5 @@ git clone https://github.com/tu-usuario/mac-desktop-portfolio.git
 cd mac-desktop-portfolio
 npm install
 npm run dev
+```
+
