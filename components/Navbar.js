@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  FaInstagram,
-  FaEnvelope
-} from "react-icons/fa";
+import { FaApple, FaInstagram, FaEnvelope } from "react-icons/fa";
 
 export default function Navbar() {
   const [time, setTime] = useState("");
@@ -19,10 +16,10 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-8 px-6 flex items-center justify-between bg-gray-100/70 backdrop-blur-md border-b border-gray-300 z-50 text-base text-black font-normal">
+    <div className="fixed top-0 left-0 w-full h-12 px-6 flex items-center justify-between bg-gray-100/70 backdrop-blur-md border-b border-gray-300 z-50 text-base text-black font-normal">
       {/* Left */}
       <div className="flex items-center space-x-6">
-<img src="/icons/apple-logo.png" alt="Apple" className="w-8 h-8" />
+        <FaApple className="w-8 h-8" />
         <span className="font-semibold">Salva Ivars</span>
         <span className="cursor-pointer hover:underline">Information</span>
         <span className="cursor-pointer hover:underline">Contact</span>
