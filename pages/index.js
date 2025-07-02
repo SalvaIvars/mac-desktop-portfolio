@@ -7,9 +7,7 @@ import PdfViewerWindow from "../components/PdfViewerWindow";
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
-
   const [windowWidth, setWindowWidth] = useState(0);
-
   const [positions, setPositions] = useState({});
 
   useEffect(() => {
@@ -20,29 +18,27 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const isMobile = windowWidth > 0 && windowWidth < 640;
+  // Define breakpoints
+  const isMobile = windowWidth > 0 && windowWidth <= 640;
+  const isTablet = windowWidth > 640 && windowWidth <= 1024;
+  const isDesktop = windowWidth > 1024;
 
   useEffect(() => {
     if (windowWidth === 0) return;
 
-    if (!isMobile) {
+    if (isDesktop) {
+      // carga posiciones guardadas solo en escritorio
       const savedPositions = {};
-      [
-        "about",
-        "cv",
-        "project3",
-        "project4",
-        "project1",
-        "trash",
-      ].forEach((id) => {
+      ["about", "cv", "project3", "project4", "project1", "trash"].forEach((id) => {
         const saved = localStorage.getItem(`icon-pos-${id}`);
         if (saved) savedPositions[id] = JSON.parse(saved);
       });
       setPositions(savedPositions);
     } else {
+      // resetea posiciones en móvil y tablet para layout dinámico
       setPositions({});
     }
-  }, [isMobile, windowWidth]);
+  }, [isDesktop, windowWidth]);
 
   const icons = [
     { id: "about", icon: "/icons/txt.png", label: "About me.txt", defaultPosition: { x: 60, y: 80 } },
@@ -56,13 +52,12 @@ export default function Home() {
   const updatePosition = (id, newPos) => {
     setPositions((prev) => {
       const updated = { ...prev, [id]: newPos };
-      if (!isMobile) localStorage.setItem(`icon-pos-${id}`, JSON.stringify(newPos));
+      if (isDesktop) localStorage.setItem(`icon-pos-${id}`, JSON.stringify(newPos));
       return updated;
     });
   };
 
   if (windowWidth === 0) {
-    // Espera a cargar windowWidth para evitar render incorrecto en SSR
     return null;
   }
 
@@ -71,7 +66,23 @@ export default function Home() {
       <Navbar />
 
       {icons.map((icon, index) => {
-        const pos = positions[icon.id] || (isMobile ? { x: 20, y: 150 + index * 140 } : icon.defaultPosition);
+        let pos;
+
+        if (positions[icon.id]) {
+          pos = positions[icon.id];
+        } else if (isMobile) {
+          // Dos columnas en móvil
+          const col = index % 2;
+          const row = Math.floor(index / 2);
+          pos = { x: 20 + col * 250, y: 150 + row * 240 };
+        } else if (isTablet) {
+          // Tres columnas en tablet
+          const col = index % 3;
+          const row = Math.floor(index / 3);
+          pos = { x: 20 + col * 250, y: 150 + row * 240 };
+        } else {
+          pos = icon.defaultPosition;
+        }
 
         return (
           <DesktopIcon
@@ -85,7 +96,7 @@ export default function Home() {
               if (icon.id === "about") setShowAbout(true);
               if (icon.id === "cv") setShowPdf(true);
             }}
-            isMobile={isMobile}
+            isMobile={isMobile || isTablet} // para iconos usar tamaño grande en móvil y tablet
           />
         );
       })}
