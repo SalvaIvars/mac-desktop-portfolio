@@ -4,11 +4,14 @@ import Navbar from "../components/Navbar";
 import TextEditWindow from "../components/TextEditWindow";
 import PdfViewerWindow from "../components/PdfViewerWindow";
 import SettingsMenu from "../components/SettingsMenu";
+import PhotoViewerWindow from "../components/PhotoViewerWindow"; // Nuevo componente para la foto
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showPhoto, setShowPhoto] = useState(false); // Estado para la ventana de foto
+
   const [windowWidth, setWindowWidth] = useState(0);
   const [positions, setPositions] = useState({});
   const [wallpaper, setWallpaper] = useState("/wallpaper3.jpg");
@@ -23,7 +26,6 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Define breakpoints
   const isMobile = windowWidth > 0 && windowWidth <= 640;
   const isTablet = windowWidth > 640 && windowWidth <= 1024;
   const isDesktop = windowWidth > 1024;
@@ -32,15 +34,13 @@ export default function Home() {
     if (windowWidth === 0) return;
 
     if (isDesktop) {
-      // carga posiciones guardadas solo en escritorio
       const savedPositions = {};
-      ["about", "cv", "project3", "project4", "project1", "trash", "settings"].forEach((id) => {
+      ["about", "cv", "project3", "project4", "trash", "settings", "profilePic"].forEach((id) => {
         const saved = localStorage.getItem(`icon-pos-${id}`);
         if (saved) savedPositions[id] = JSON.parse(saved);
       });
       setPositions(savedPositions);
     } else {
-      // resetea posiciones en móvil y tablet para layout dinámico
       setPositions({});
     }
   }, [isDesktop, windowWidth]);
@@ -50,9 +50,9 @@ export default function Home() {
     { id: "cv", icon: "/icons/pdf.png", label: "CV_2025.pdf", defaultPosition: { x: 60, y: 160 } },
     { id: "project3", icon: "/icons/folder.png", label: "Project 3", defaultPosition: { x: 60, y: 240 } },
     { id: "project4", icon: "/icons/folder.png", label: "Project 4", defaultPosition: { x: 60, y: 320 } },
-    { id: "project1", icon: "/icons/folder.png", label: "Project 1", defaultPosition: { x: 60, y: 400 } },
     { id: "trash", icon: "/icons/trash.png", label: "Don't look in here", defaultPosition: { x: 60, y: 560 } },
     { id: "settings", icon: "/icons/gear.png", label: "Settings", defaultPosition: { x: 60, y: 640 } },
+    { id: "profilePic", icon: "/icons/profilepicture_thumb.png", label: "My Photo", defaultPosition: { x: 300, y: 80 } },
   ];
 
   const updatePosition = (id, newPos) => {
@@ -63,9 +63,7 @@ export default function Home() {
     });
   };
 
-  if (windowWidth === 0) {
-    return null;
-  }
+  if (windowWidth === 0) return null;
 
   return (
     <div
@@ -80,12 +78,10 @@ export default function Home() {
         if (positions[icon.id]) {
           pos = positions[icon.id];
         } else if (isMobile) {
-          // Dos columnas en móvil
           const col = index % 2;
           const row = Math.floor(index / 2);
           pos = { x: 20 + col * 250, y: 150 + row * 240 };
         } else if (isTablet) {
-          // Tres columnas en tablet
           const col = index % 3;
           const row = Math.floor(index / 3);
           pos = { x: 20 + col * 250, y: 150 + row * 240 };
@@ -105,6 +101,7 @@ export default function Home() {
               if (icon.id === "about") setShowAbout(true);
               if (icon.id === "cv") setShowPdf(true);
               if (icon.id === "settings") setShowSettings(true);
+              if (icon.id === "profilePic") setShowPhoto(true);
             }}
             folderSize={folderSize}
             textSize={textSize}
@@ -126,6 +123,13 @@ export default function Home() {
           setFolderSize={setFolderSize}
           textSize={textSize}
           setTextSize={setTextSize}
+        />
+      )}
+
+      {showPhoto && (
+        <PhotoViewerWindow
+          onClose={() => setShowPhoto(false)}
+          photoSrc="/picture/profilepicture.jpg"
         />
       )}
     </div>
