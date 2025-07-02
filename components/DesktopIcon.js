@@ -11,6 +11,7 @@ export default function DesktopIcon({
   isMobile,
   folderSize,
   textSize,
+  externalLink,
 }) {
   const dragging = useRef(false);
   const pointerDownPos = useRef({ x: 0, y: 0 });
@@ -36,6 +37,7 @@ export default function DesktopIcon({
     onPositionChange({ x: data.x, y: data.y });
   };
 
+  // Pointer events
   const handlePointerDown = (e) => {
     clickAllowed.current = true;
     pointerDownPos.current = { x: e.clientX, y: e.clientY };
@@ -50,8 +52,39 @@ export default function DesktopIcon({
   };
 
   const handlePointerUp = () => {
-    if (clickAllowed.current && typeof onClick === "function") {
-      onClick();
+    if (clickAllowed.current) {
+      if (externalLink) {
+        window.open(externalLink, "_blank", "noopener,noreferrer");
+      } else if (typeof onClick === "function") {
+        onClick();
+      }
+    }
+  };
+
+  // Touch events for mobile/tablet
+  const handleTouchStart = (e) => {
+    clickAllowed.current = true;
+    pointerDownPos.current = {
+      x: e.touches[0].clientX,
+      y: e.touches[0].clientY,
+    };
+  };
+
+  const handleTouchMove = (e) => {
+    const dx = Math.abs(e.touches[0].clientX - pointerDownPos.current.x);
+    const dy = Math.abs(e.touches[0].clientY - pointerDownPos.current.y);
+    if (dx > 10 || dy > 10) {
+      clickAllowed.current = false;
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (clickAllowed.current) {
+      if (externalLink) {
+        window.open(externalLink, "_blank", "noopener,noreferrer");
+      } else if (typeof onClick === "function") {
+        onClick();
+      }
     }
   };
 
@@ -87,9 +120,21 @@ export default function DesktopIcon({
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         <img src={icon} alt={label} className={`${size.imgClass} mx-auto pointer-events-none`} />
-        <span className="block mt-1 pointer-events-none">{label}</span>
+<span
+  className={`block mt-1 pointer-events-none text-shadow`}
+  style={{
+    padding: "2px 6px",
+    fontWeight: "600",
+    color: "white",
+  }}
+>
+  {label}
+</span>
       </div>
     </Rnd>
   );

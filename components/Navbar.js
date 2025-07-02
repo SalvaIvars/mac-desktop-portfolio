@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FaApple, FaInstagram, FaEnvelope } from "react-icons/fa";
+import { FaApple, FaLinkedin, FaEnvelope } from "react-icons/fa";
 
 export default function Navbar() {
   const [time, setTime] = useState("");
@@ -27,7 +27,9 @@ export default function Navbar() {
 
       {/* Right */}
       <div className="flex items-center space-x-3 sm:space-x-4 md:space-x-6">
-        <FaInstagram className="w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7" />
+        <a href="https://www.linkedin.com/in/salva-ivars/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+          <FaLinkedin className="w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7 cursor-pointer hover:text-blue-600" />
+        </a>
         <FaEnvelope className="w-4 h-4 sm:w-5 sm:h-5 md:w-7 md:h-7" />
         <span className="ml-2 sm:ml-3 tabular-nums tracking-tight text-xs sm:text-sm md:text-base">{time}</span>
       </div>

@@ -7,6 +7,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "emailjs-com": "^3.2.0",
     "next": "latest",
     "react": "latest",
     "react-dom": "latest",

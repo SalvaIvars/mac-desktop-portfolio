@@ -4,13 +4,13 @@ import Navbar from "../components/Navbar";
 import TextEditWindow from "../components/TextEditWindow";
 import PdfViewerWindow from "../components/PdfViewerWindow";
 import SettingsMenu from "../components/SettingsMenu";
-import PhotoViewerWindow from "../components/PhotoViewerWindow"; // Nuevo componente para la foto
+import PhotoViewerWindow from "../components/PhotoViewerWindow";
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [showPhoto, setShowPhoto] = useState(false); // Estado para la ventana de foto
+  const [showPhoto, setShowPhoto] = useState(false);
 
   const [windowWidth, setWindowWidth] = useState(0);
   const [positions, setPositions] = useState({});
@@ -35,7 +35,7 @@ export default function Home() {
 
     if (isDesktop) {
       const savedPositions = {};
-      ["about", "cv", "project3", "project4", "trash", "settings", "profilePic"].forEach((id) => {
+      ["about", "cv", "project3", "project4", "project1", "trash", "settings", "profilePic"].forEach((id) => {
         const saved = localStorage.getItem(`icon-pos-${id}`);
         if (saved) savedPositions[id] = JSON.parse(saved);
       });
@@ -49,7 +49,14 @@ export default function Home() {
     { id: "about", icon: "/icons/txt.png", label: "About me.txt", defaultPosition: { x: 60, y: 80 } },
     { id: "cv", icon: "/icons/pdf.png", label: "CV_2025.pdf", defaultPosition: { x: 60, y: 160 } },
     { id: "project3", icon: "/icons/folder.png", label: "Project 3", defaultPosition: { x: 60, y: 240 } },
-    { id: "project4", icon: "/icons/folder.png", label: "Project 4", defaultPosition: { x: 60, y: 320 } },
+    {
+      id: "project4",
+      icon: "/icons/github.png",
+      label: "GitHub",
+      defaultPosition: { x: 60, y: 320 },
+      externalLink: "https://github.com/SalvaIvars", // Cambia aquí por tu GitHub
+    },
+    { id: "project1", icon: "/icons/folder.png", label: "Project 1", defaultPosition: { x: 60, y: 400 } },
     { id: "trash", icon: "/icons/trash.png", label: "Don't look in here", defaultPosition: { x: 60, y: 560 } },
     { id: "settings", icon: "/icons/gear.png", label: "Settings", defaultPosition: { x: 60, y: 640 } },
     { id: "profilePic", icon: "/icons/profilepicture_thumb.png", label: "My Photo", defaultPosition: { x: 300, y: 80 } },
@@ -98,6 +105,10 @@ export default function Home() {
             position={pos}
             onPositionChange={(newPos) => updatePosition(icon.id, newPos)}
             onClick={() => {
+              if (icon.externalLink) {
+                window.open(icon.externalLink, "_blank", "noopener,noreferrer");
+                return;
+              }
               if (icon.id === "about") setShowAbout(true);
               if (icon.id === "cv") setShowPdf(true);
               if (icon.id === "settings") setShowSettings(true);
@@ -110,7 +121,7 @@ export default function Home() {
         );
       })}
 
-      {showAbout && <TextEditWindow onClose={() => setShowAbout(false)}>{/* contenido */}</TextEditWindow>}
+      {showAbout && <TextEditWindow onClose={() => setShowAbout(false)}>{"Soy un desarrollador de aplicaciones multiplataforma apasionado por la tecnología y comprometido con el aprendizaje continuo. Actualmente estudio Ingeniería Informática en la Universidad Politécnica de Valencia y busco crecer profesionalmente en entornos innovadores y colaborativos. Me especializo en lenguajes como C#, Java, React y Python, y frameworks como .NET MAUI, Flutter y ASP.NET Core, con un interés particular en inteligencia artificial. Creo que la IA es una evolución clave en el desarrollo de software y estoy dedicando esfuerzos para integrarla en mis proyectos futuros. Soy curioso, adaptable y disfruto trabajando en equipo, siempre motivado para aprender, seguir desarrollándome en el campo tecnológico con energía y responsabilidad."}</TextEditWindow>}
 
       {showPdf && <PdfViewerWindow onClose={() => setShowPdf(false)} />}
 
