@@ -67,10 +67,10 @@ export default function PdfViewerWindow({ onClose }) {
           <div className="flex space-x-2">
             <div
               className="w-3 h-3 rounded-full bg-red-500 cursor-pointer"
-              onClick={onClose}
-            ></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+              onClick={onClose} // Cerrar ventana al pulsar botón rojo
+            />
+            <div className="w-3 h-3 rounded-full bg-yellow-400 cursor-pointer" onClick={onClose} />
+            <div className="w-3 h-3 rounded-full bg-green-500 cursor-pointer" onClick={onClose} />
           </div>
           <span className="text-sm text-gray-700">CV_2025.pdf</span>
           <div className="w-16" />

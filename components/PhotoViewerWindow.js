@@ -48,11 +48,11 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
           <div className="flex space-x-2">
             <div
               className="w-3 h-3 rounded-full bg-red-500 cursor-pointer"
-              onClick={onClose}
+              onClick={onClose} // Cerrar ventana al pulsar botón rojo
               title="Close"
             />
-            <div className="w-3 h-3 rounded-full bg-yellow-400" />
-            <div className="w-3 h-3 rounded-full bg-green-500" />
+            <div className="w-3 h-3 rounded-full bg-yellow-400 cursor-pointer" onClick={onClose} title="Close" />
+            <div className="w-3 h-3 rounded-full bg-green-500 cursor-pointer" onClick={onClose} title="Close" />
           </div>
           <span className="text-sm text-gray-700 select-none">My Photo</span>
           <div className="w-16" />
@@ -70,7 +70,6 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
               display: "block",
               margin: "auto",
             }}
-            
           />
         </div>
       </div>

@@ -39,11 +39,19 @@ export default function SettingsMenu({
           <div className="flex space-x-2">
             <div
               className="w-3 h-3 rounded-full bg-red-500 cursor-pointer"
-              onClick={onClose}
+              onClick={onClose} // Cerrar al pulsar botón rojo
               title="Close"
             ></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <div
+              className="w-3 h-3 rounded-full bg-yellow-400 cursor-pointer"
+              onClick={onClose} // También cerrar con amarillo
+              title="Close"
+            ></div>
+            <div
+              className="w-3 h-3 rounded-full bg-green-500 cursor-pointer"
+              onClick={onClose} // Y con verde también
+              title="Close"
+            ></div>
           </div>
           <span className="text-sm text-gray-700 font-semibold select-none">System Preferences</span>
           <div className="w-16" />

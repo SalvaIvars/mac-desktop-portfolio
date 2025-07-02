@@ -70,8 +70,8 @@ export default function TextEditWindow({ onClose, children }) {
         <div className="flex items-center justify-between px-3 py-1 bg-[#e5e5e5] border-b border-gray-300 rounded-t-xl">
           <div className="flex space-x-2">
             <div className="w-3 h-3 rounded-full bg-red-500 cursor-pointer" onClick={onClose}></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-400 cursor-pointer" onClick={onClose}></div>
+            <div className="w-3 h-3 rounded-full bg-green-500 cursor-pointer" onClick={onClose}></div>
           </div>
           <span className="text-sm text-gray-700">About Me.txt</span>
           <div className="w-16" />
