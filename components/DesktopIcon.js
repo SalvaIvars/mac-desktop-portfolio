@@ -1,19 +1,10 @@
 import { Rnd } from "react-rnd";
-import { useEffect, useState, useRef } from "react";
+import { useRef } from "react";
 
-export default function DesktopIcon({ id, icon, label, defaultPosition, onClick }) {
-  const storageKey = `icon-pos-${id}`;
-  const [position, setPosition] = useState(defaultPosition);
+export default function DesktopIcon({ id, icon, label, position, onPositionChange, onClick, isMobile }) {
   const dragging = useRef(false);
   const dragStartPos = useRef({ x: 0, y: 0 });
   const clickAllowed = useRef(true);
-
-  useEffect(() => {
-    const saved = localStorage.getItem(storageKey);
-    if (saved) {
-      setPosition(JSON.parse(saved));
-    }
-  }, []);
 
   const handleDragStart = (e, data) => {
     dragging.current = true;
@@ -30,15 +21,10 @@ export default function DesktopIcon({ id, icon, label, defaultPosition, onClick 
     const dy = Math.abs(data.y - dragStartPos.current.y);
     const moved = dx > 5 || dy > 5;
 
-    if (moved) {
-      clickAllowed.current = false;
-    } else {
-      clickAllowed.current = true;
-    }
+    clickAllowed.current = !moved;
 
-    const newPos = { x: data.x, y: data.y };
-    setPosition(newPos);
-    localStorage.setItem(storageKey, JSON.stringify(newPos));
+    // Llamamos al padre con la nueva posición
+    onPositionChange({ x: data.x, y: data.y });
   };
 
   const handleClick = () => {
@@ -47,22 +33,28 @@ export default function DesktopIcon({ id, icon, label, defaultPosition, onClick 
     }
   };
 
+  // Tamaño icono responsive
+  const iconWidth = window.innerWidth < 640 ? 90 : 100;
+  const iconHeight = window.innerWidth < 640 ? 110 : 120;
+  const imgClass = window.innerWidth < 640 ? "w-20 h-20" : "w-24 h-24";
+  const textClass = window.innerWidth < 640 ? "text-base" : "text-sm";
+
   return (
     <Rnd
-      size={{ width: 100, height: 120 }}
+      size={{ width: iconWidth, height: iconHeight }}
       position={position}
       onDragStart={handleDragStart}
       onDragStop={handleDragStop}
       enableResizing={false}
-      bounds="parent"
+      bounds={isMobile ? "window" : "parent"}
       style={{ position: "absolute", cursor: dragging.current ? "grabbing" : "grab" }}
     >
       <div
-        className="cursor-pointer w-full text-center text-white drop-shadow-sm select-none"
+        className={`cursor-pointer w-full text-center text-white drop-shadow-sm select-none ${textClass}`}
         onClick={handleClick}
       >
-        <img src={icon} alt={label} className="w-24 h-24 mx-auto pointer-events-none" />
-        <span className="block text-sm mt-1 pointer-events-none">{label}</span>
+        <img src={icon} alt={label} className={`${imgClass} mx-auto pointer-events-none`} />
+        <span className="block mt-1 pointer-events-none">{label}</span>
       </div>
     </Rnd>
   );

@@ -4,10 +4,21 @@ import { useEffect, useState } from "react";
 export default function PdfViewerWindow({ onClose }) {
   const storageKey = "window-pos-pdf";
   const [position, setPosition] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
+  const [windowHeight, setWindowHeight] = useState(typeof window !== "undefined" ? window.innerHeight : 768);
+
+  useEffect(() => {
+    const updateWindowSize = () => {
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", updateWindowSize);
+    return () => window.removeEventListener("resize", updateWindowSize);
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem(storageKey);
-    if (saved) {
+    if (saved && windowWidth >= 640) {
       try {
         const pos = JSON.parse(saved);
         if (typeof pos.x === "number" && typeof pos.y === "number") {
@@ -19,22 +30,30 @@ export default function PdfViewerWindow({ onClose }) {
         setPosition({ x: 200, y: 150 });
       }
     } else {
-      setPosition({ x: 200, y: 150 });
+      const width = windowWidth < 640 ? Math.min(800, windowWidth - 40) : 800;
+      const height = windowWidth < 640 ? Math.min(600, windowHeight - 80) : 600;
+      setPosition({
+        x: Math.max(20, (windowWidth - width) / 2),
+        y: Math.max(20, (windowHeight - height) / 2),
+      });
     }
-  }, []);
+  }, [storageKey, windowWidth, windowHeight]);
 
   const handleDragStop = (e, d) => {
     const newPos = { x: d.x, y: d.y };
     setPosition(newPos);
-    localStorage.setItem(storageKey, JSON.stringify(newPos));
+    if (windowWidth >= 640) localStorage.setItem(storageKey, JSON.stringify(newPos));
   };
 
   if (!position) return null;
 
+  const width = windowWidth < 640 ? Math.min(800, windowWidth - 40) : 800;
+  const height = windowWidth < 640 ? Math.min(600, windowHeight - 80) : 600;
+
   return (
     <Rnd
       position={position}
-      size={{ width: 800, height: 600 }}
+      size={{ width, height }}
       minWidth={400}
       minHeight={300}
       bounds="parent"
@@ -64,6 +83,7 @@ export default function PdfViewerWindow({ onClose }) {
             className="w-full h-full"
             title="PDF Viewer"
             frameBorder="0"
+            style={{ overflow: "hidden" }}
           />
         </div>
       </div>

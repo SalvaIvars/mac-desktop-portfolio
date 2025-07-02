@@ -1,12 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DesktopIcon from "../components/DesktopIcon";
 import Navbar from "../components/Navbar";
 import TextEditWindow from "../components/TextEditWindow";
-import PdfViewerWindow from "../components/PdfViewerWindow"; // ← NUEVO
+import PdfViewerWindow from "../components/PdfViewerWindow";
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
-  const [showPdf, setShowPdf] = useState(false); // ← NUEVO
+  const [showPdf, setShowPdf] = useState(false);
+
+  const [windowWidth, setWindowWidth] = useState(typeof window !== "undefined" ? window.innerWidth : 1024);
+
+  const [positions, setPositions] = useState({});
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const isMobile = windowWidth < 640;
+
+  useEffect(() => {
+    if (!isMobile) {
+      const savedPositions = {};
+      ["about", "cv", "project3", "project4", "project1", "trash"].forEach((id) => {
+        const saved = localStorage.getItem(`icon-pos-${id}`);
+        if (saved) savedPositions[id] = JSON.parse(saved);
+      });
+      setPositions(savedPositions);
+    } else {
+      setPositions({});
+    }
+  }, [isMobile]);
 
   const icons = [
     { id: "about", icon: "/icons/txt.png", label: "About me.txt", defaultPosition: { x: 60, y: 80 } },
@@ -17,40 +42,41 @@ export default function Home() {
     { id: "trash", icon: "/icons/trash.png", label: "Don't look in here", defaultPosition: { x: 60, y: 560 } },
   ];
 
+  const updatePosition = (id, newPos) => {
+    setPositions((prev) => {
+      const updated = { ...prev, [id]: newPos };
+      if (!isMobile) localStorage.setItem(`icon-pos-${id}`, JSON.stringify(newPos));
+      return updated;
+    });
+  };
+
   return (
-    <div className="h-screen w-screen bg-[url('/wallpaper.jpg')] bg-cover relative overflow-hidden">
+    <div className="relative w-full h-screen bg-[url('/wallpaper.jpg')] bg-cover bg-center overflow-x-hidden overflow-y-auto">
       <Navbar />
 
-      {/* Íconos del escritorio */}
-      {icons.map(icon => (
-        <DesktopIcon
-          key={icon.id}
-          id={icon.id}
-          icon={icon.icon}
-          label={icon.label}
-          defaultPosition={icon.defaultPosition}
-          onClick={() => {
-            if (icon.id === "about") setShowAbout(true);
-            if (icon.id === "cv") setShowPdf(true); // ← NUEVO
-          }}
-        />
-      ))}
+      {icons.map((icon, index) => {
+        const pos = positions[icon.id] || (isMobile ? { x: 20, y: 150 + index * 140 } : icon.defaultPosition);
 
-      {/* Ventana tipo TextEdit */}
-      {showAbout && (
-        <TextEditWindow onClose={() => setShowAbout(false)}>
-          Hello. I am a designer. I’ve worked on lots of projects — and thankfully have lots on my plate, but I am always on the lookout for interesting and fun situations. Feel free to send me an email. To see my full resume just click the PDF icon on the “desktop” ;)
+        return (
+          <DesktopIcon
+            key={icon.id}
+            id={icon.id}
+            icon={icon.icon}
+            label={icon.label}
+            position={pos}
+            onPositionChange={(newPos) => updatePosition(icon.id, newPos)}
+            onClick={() => {
+              if (icon.id === "about") setShowAbout(true);
+              if (icon.id === "cv") setShowPdf(true);
+            }}
+            isMobile={isMobile}
+          />
+        );
+      })}
 
-          As well, this year I started a print magazine called “Control” — a long realized dream. For “Control” related inquiries please email info@controlmag.com.
+      {showAbout && <TextEditWindow onClose={() => setShowAbout(false)}>{/* contenido */}</TextEditWindow>}
 
-          Thanks and look forward to hearing from you. 👽🖖
-        </TextEditWindow>
-      )}
-
-      {/* Ventana PDF estilo Preview */}
-      {showPdf && (
-        <PdfViewerWindow onClose={() => setShowPdf(false)} />
-      )}
+      {showPdf && <PdfViewerWindow onClose={() => setShowPdf(false)} />}
     </div>
   );
 }
