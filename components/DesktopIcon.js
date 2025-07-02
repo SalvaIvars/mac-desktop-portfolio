@@ -23,7 +23,6 @@ export default function DesktopIcon({ id, icon, label, position, onPositionChang
 
     clickAllowed.current = !moved;
 
-    // Llamamos al padre con la nueva posición
     onPositionChange({ x: data.x, y: data.y });
   };
 
@@ -33,11 +32,12 @@ export default function DesktopIcon({ id, icon, label, position, onPositionChang
     }
   };
 
-  // Tamaño icono responsive
-  const iconWidth = window.innerWidth < 640 ? 90 : 100;
-  const iconHeight = window.innerWidth < 640 ? 110 : 120;
-  const imgClass = window.innerWidth < 640 ? "w-20 h-20" : "w-24 h-24";
-  const textClass = window.innerWidth < 640 ? "text-base" : "text-sm";
+  const iconWidth = typeof window !== "undefined" && window.innerWidth < 640 ? 90 : 100;
+  const iconHeight = typeof window !== "undefined" && window.innerWidth < 640 ? 110 : 120;
+  const imgClass = typeof window !== "undefined" && window.innerWidth < 640 ? "w-20 h-20" : "w-24 h-24";
+  const textClass = typeof window !== "undefined" && window.innerWidth < 640 ? "text-base" : "text-sm";
+
+  if (position == null) return null; // evitar renderizar sin posición
 
   return (
     <Rnd
