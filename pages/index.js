@@ -3,12 +3,17 @@ import DesktopIcon from "../components/DesktopIcon";
 import Navbar from "../components/Navbar";
 import TextEditWindow from "../components/TextEditWindow";
 import PdfViewerWindow from "../components/PdfViewerWindow";
+import SettingsMenu from "../components/SettingsMenu";
 
 export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [positions, setPositions] = useState({});
+  const [wallpaper, setWallpaper] = useState("/wallpaper3.jpg");
+  const [folderSize, setFolderSize] = useState("medium");
+  const [textSize, setTextSize] = useState("medium");
 
   useEffect(() => {
     setWindowWidth(window.innerWidth);
@@ -29,7 +34,7 @@ export default function Home() {
     if (isDesktop) {
       // carga posiciones guardadas solo en escritorio
       const savedPositions = {};
-      ["about", "cv", "project3", "project4", "project1", "trash"].forEach((id) => {
+      ["about", "cv", "project3", "project4", "project1", "trash", "settings"].forEach((id) => {
         const saved = localStorage.getItem(`icon-pos-${id}`);
         if (saved) savedPositions[id] = JSON.parse(saved);
       });
@@ -47,6 +52,7 @@ export default function Home() {
     { id: "project4", icon: "/icons/folder.png", label: "Project 4", defaultPosition: { x: 60, y: 320 } },
     { id: "project1", icon: "/icons/folder.png", label: "Project 1", defaultPosition: { x: 60, y: 400 } },
     { id: "trash", icon: "/icons/trash.png", label: "Don't look in here", defaultPosition: { x: 60, y: 560 } },
+    { id: "settings", icon: "/icons/gear.png", label: "Settings", defaultPosition: { x: 60, y: 640 } },
   ];
 
   const updatePosition = (id, newPos) => {
@@ -62,7 +68,10 @@ export default function Home() {
   }
 
   return (
-    <div className="relative w-full h-screen bg-[url('/wallpaper.jpg')] bg-cover bg-center overflow-x-hidden overflow-y-auto">
+    <div
+      className="relative w-full h-screen bg-cover bg-center overflow-x-hidden overflow-y-auto"
+      style={{ backgroundImage: `url(${wallpaper})` }}
+    >
       <Navbar />
 
       {icons.map((icon, index) => {
@@ -95,8 +104,11 @@ export default function Home() {
             onClick={() => {
               if (icon.id === "about") setShowAbout(true);
               if (icon.id === "cv") setShowPdf(true);
+              if (icon.id === "settings") setShowSettings(true);
             }}
-            isMobile={isMobile || isTablet} // para iconos usar tamaño grande en móvil y tablet
+            folderSize={folderSize}
+            textSize={textSize}
+            isMobile={isMobile || isTablet}
           />
         );
       })}
@@ -104,6 +116,18 @@ export default function Home() {
       {showAbout && <TextEditWindow onClose={() => setShowAbout(false)}>{/* contenido */}</TextEditWindow>}
 
       {showPdf && <PdfViewerWindow onClose={() => setShowPdf(false)} />}
+
+      {showSettings && (
+        <SettingsMenu
+          onClose={() => setShowSettings(false)}
+          wallpaper={wallpaper}
+          setWallpaper={setWallpaper}
+          folderSize={folderSize}
+          setFolderSize={setFolderSize}
+          textSize={textSize}
+          setTextSize={setTextSize}
+        />
+      )}
     </div>
   );
 }

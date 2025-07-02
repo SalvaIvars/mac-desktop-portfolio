@@ -1,0 +1,123 @@
+import { Rnd } from "react-rnd";
+import { useState } from "react";
+
+const wallpapers = [
+  "/wallpaper3.jpg",
+  "/wallpaper4.jpg",
+  "/wallpaper5.jpg",
+  "/wallpaper6.jpg",
+  "/wallpaper7.jpg",
+  "/wallpaper8.jpg",
+];
+
+export default function SettingsMenu({
+  onClose,
+  wallpaper,
+  setWallpaper,
+  folderSize,
+  setFolderSize,
+  textSize,
+  setTextSize,
+}) {
+  const [position, setPosition] = useState({ x: 150, y: 150 });
+
+  const folderSizes = ["small", "medium", "large"];
+  const textSizes = ["small", "medium", "large"];
+
+  return (
+    <Rnd
+      size={{ width: 600, height: 460 }}
+      position={position}
+      onDragStop={(e, d) => setPosition({ x: d.x, y: d.y })}
+      bounds="parent"
+      enableResizing={false}
+      className="z-50"
+    >
+      <div className="w-full h-full bg-[#f2f2f2] rounded-xl border border-gray-300 shadow-md flex flex-col font-sans">
+        {/* Header */}
+        <div className="flex items-center justify-between bg-[#e5e5e5] border-b border-gray-300 rounded-t-xl px-3 py-2">
+          <div className="flex space-x-2">
+            <div
+              className="w-3 h-3 rounded-full bg-red-500 cursor-pointer"
+              onClick={onClose}
+              title="Close"
+            ></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+          <span className="text-sm text-gray-700 font-semibold select-none">System Preferences</span>
+          <div className="w-16" />
+        </div>
+
+        {/* Body */}
+        <div className="flex flex-col p-4 gap-6 overflow-auto">
+          {/* Wallpapers */}
+          <div>
+            <h3 className="font-semibold mb-2 select-none">Wallpaper</h3>
+            <div className="grid grid-cols-4 gap-3">
+              {wallpapers.map((wp) => (
+                <div
+                  key={wp}
+                  className={`relative cursor-pointer rounded-lg overflow-hidden border-4 ${
+                    wallpaper === wp ? "border-blue-600" : "border-transparent"
+                  }`}
+                  onClick={() => setWallpaper(wp)}
+                >
+                  <img
+                    src={wp}
+                    alt="Wallpaper preview"
+                    className="w-full h-24 object-cover"
+                    draggable={false}
+                  />
+                  {wallpaper === wp && (
+                    <div className="absolute inset-0 bg-blue-500 bg-opacity-20 pointer-events-none" />
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Folder Size */}
+          <div>
+            <h3 className="font-semibold mb-2 select-none">Folder Size</h3>
+            <div className="flex gap-3">
+              {folderSizes.map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setFolderSize(size)}
+                  className={`px-4 py-1 rounded border ${
+                    folderSize === size
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-white border-gray-300"
+                  }`}
+                >
+                  {size.charAt(0).toUpperCase() + size.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Text Size */}
+          <div>
+            <h3 className="font-semibold mb-2 select-none">Text Size</h3>
+            <div className="flex gap-3">
+              {textSizes.map((size) => (
+                <button
+                  key={size}
+                  onClick={() => setTextSize(size)}
+                  className={`px-4 py-1 rounded border ${
+                    textSize === size
+                      ? "bg-blue-600 text-white border-blue-600"
+                      : "bg-white border-gray-300"
+                  }`}
+                >
+                  {size.charAt(0).toUpperCase() + size.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </Rnd>
+  );
+}

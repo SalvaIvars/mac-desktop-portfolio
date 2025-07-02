@@ -1,7 +1,17 @@
 import { Rnd } from "react-rnd";
 import { useRef } from "react";
 
-export default function DesktopIcon({ id, icon, label, position, onPositionChange, onClick, isMobile }) {
+export default function DesktopIcon({
+  id,
+  icon,
+  label,
+  position,
+  onPositionChange,
+  onClick,
+  isMobile,
+  folderSize,
+  textSize,
+}) {
   const dragging = useRef(false);
   const pointerDownPos = useRef({ x: 0, y: 0 });
   const clickAllowed = useRef(true);
@@ -45,17 +55,26 @@ export default function DesktopIcon({ id, icon, label, position, onPositionChang
     }
   };
 
-  // Si es móvil o tablet, iconos más grandes
-  const iconWidth = isMobile ? 120 : 160;
-  const iconHeight = isMobile ? 140 : 180;
-  const imgClass = isMobile ? "w-28 h-28" : "w-28 h-28";
-  const textClass = isMobile ? "text-lg" : "text-base";
+  const folderSizesMap = {
+    small: { width: 100, height: 120, imgClass: "w-16 h-16" },
+    medium: { width: 140, height: 160, imgClass: "w-24 h-24" },
+    large: { width: 180, height: 200, imgClass: "w-32 h-32" },
+  };
+
+  const textSizesMap = {
+    small: "text-xs",
+    medium: "text-sm",
+    large: "text-lg",
+  };
+
+  const size = folderSizesMap[folderSize] || folderSizesMap.medium;
+  const textClass = textSizesMap[textSize] || textSizesMap.medium;
 
   if (position == null) return null;
 
   return (
     <Rnd
-      size={{ width: iconWidth, height: iconHeight }}
+      size={{ width: size.width, height: size.height }}
       position={position}
       onDragStart={handleDragStart}
       onDragStop={handleDragStop}
@@ -69,7 +88,7 @@ export default function DesktopIcon({ id, icon, label, position, onPositionChang
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}
       >
-        <img src={icon} alt={label} className={`${imgClass} mx-auto pointer-events-none`} />
+        <img src={icon} alt={label} className={`${size.imgClass} mx-auto pointer-events-none`} />
         <span className="block mt-1 pointer-events-none">{label}</span>
       </div>
     </Rnd>
