@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 body {
-  @apply font-mac h-screen w-screen overflow-hidden bg-neutral-200;
+  @apply font-mac min-h-screen w-full overflow-x-hidden overflow-y-auto bg-neutral-200;
 }
 
 * {
