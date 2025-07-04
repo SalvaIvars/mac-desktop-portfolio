@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Rnd } from "react-rnd";
 
 export default function PhotoViewerWindow({ onClose, photoSrc }) {
-  const storageKey = "window-pos-photoViewer";
   const [position, setPosition] = useState(null);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1024
@@ -21,38 +20,24 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
   }, []);
 
   useEffect(() => {
-    const saved = localStorage.getItem(storageKey);
-    if (saved && windowWidth >= 640) {
-      try {
-        const pos = JSON.parse(saved);
-        if (typeof pos.x === "number" && typeof pos.y === "number") {
-          setPosition(pos);
-        } else {
-          setPosition({ x: 150, y: 100 });
-        }
-      } catch {
-        setPosition({ x: 150, y: 100 });
-      }
-    } else {
-      const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 600;
-      const height = windowWidth < 640 ? Math.min(520, windowHeight - 80) : 520;
-      setPosition({
-        x: Math.max(20, (windowWidth - width) / 2),
-        y: Math.max(20, (windowHeight - height) / 2),
-      });
-    }
-  }, [storageKey, windowWidth, windowHeight]);
+    const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
+    const height = windowWidth < 640 ? Math.min(450, windowHeight - 80) : 450;
+    setPosition({
+      x: Math.max(20, (windowWidth - width) / 2),
+      y: Math.max(20, (windowHeight - height) / 2),
+    });
+  }, [windowWidth, windowHeight]);
+
 
   const handleDragStop = (e, d) => {
-    const newPos = { x: d.x, y: d.y };
-    setPosition(newPos);
-    localStorage.setItem(storageKey, JSON.stringify(newPos));
+    setPosition({ x: d.x, y: d.y });
   };
 
   if (!position) return null;
 
-  const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 600;
-  const height = windowWidth < 640 ? Math.min(520, windowHeight - 80) : 520;
+  const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
+  const height = windowWidth < 640 ? Math.min(450, windowHeight - 80) : 450;
+
 
   return (
     <Rnd
