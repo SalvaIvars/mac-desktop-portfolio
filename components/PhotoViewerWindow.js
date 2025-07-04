@@ -20,8 +20,10 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
   }, []);
 
   useEffect(() => {
-    const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
-    const height = windowWidth < 640 ? Math.min(450, windowHeight - 80) : 450;
+
+    const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
+    const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
+
     setPosition({
       x: Math.max(20, (windowWidth - width) / 2),
       y: Math.max(20, (windowHeight - height) / 2),
@@ -35,8 +37,9 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
 
   if (!position) return null;
 
-  const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
-  const height = windowWidth < 640 ? Math.min(450, windowHeight - 80) : 450;
+
+  const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
+  const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
 
 
   return (
