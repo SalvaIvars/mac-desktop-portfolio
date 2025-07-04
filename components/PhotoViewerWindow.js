@@ -20,7 +20,7 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
   }, []);
 
   useEffect(() => {
-
+    // Definir dimensiones responsivas para móvil y escritorio
     const width = windowWidth < 640 ? Math.min(350, windowWidth - 40) : 450;
     const height = windowWidth < 640 ? Math.min(320, windowHeight - 80) : 420;
 
@@ -30,24 +30,21 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
     });
   }, [windowWidth, windowHeight]);
 
-
   const handleDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });
   };
 
   if (!position) return null;
 
-
-  const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
-  const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
-
+  const width = windowWidth < 640 ? Math.min(350, windowWidth - 40) : 450;
+  const height = windowWidth < 640 ? Math.min(320, windowHeight - 80) : 420;
 
   return (
     <Rnd
       position={position}
       size={{ width, height }}
-      minWidth={400}
-      minHeight={400}
+      minWidth={300}
+      minHeight={300}
       bounds="parent"
       onDragStop={handleDragStop}
       className="z-50"
@@ -61,11 +58,19 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
           <div className="flex space-x-2">
             <div
               className="no-drag w-3 h-3 rounded-full bg-red-500 cursor-pointer"
-              onClick={onClose} // Cerrar ventana al pulsar botón rojo
+              onClick={onClose}
               title="Close"
             />
-            <div className="no-drag w-3 h-3 rounded-full bg-yellow-400 cursor-pointer" onClick={onClose} title="Close" />
-            <div className="no-drag w-3 h-3 rounded-full bg-green-500 cursor-pointer" onClick={onClose} title="Close" />
+            <div
+              className="no-drag w-3 h-3 rounded-full bg-yellow-400 cursor-pointer"
+              onClick={onClose}
+              title="Close"
+            />
+            <div
+              className="no-drag w-3 h-3 rounded-full bg-green-500 cursor-pointer"
+              onClick={onClose}
+              title="Close"
+            />
           </div>
           <span className="text-sm text-gray-700 select-none">My Photo</span>
           <div className="w-16" />
