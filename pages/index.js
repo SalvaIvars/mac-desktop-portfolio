@@ -14,7 +14,7 @@ export default function Home() {
 
   const [windowWidth, setWindowWidth] = useState(0);
   const [positions, setPositions] = useState({});
-  const [wallpaper, setWallpaper] = useState("/wallpaper3.jpg");
+  const [wallpaper, setWallpaper] = useState("/wallpaper3.webp");
   const [folderSize, setFolderSize] = useState("medium");
   const [textSize, setTextSize] = useState("medium");
 

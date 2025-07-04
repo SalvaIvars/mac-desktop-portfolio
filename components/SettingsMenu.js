@@ -2,12 +2,12 @@ import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
 
 const wallpapers = [
-  "/wallpaper3.jpg",
-  "/wallpaper4.jpg",
-  "/wallpaper5.jpg",
-  "/wallpaper6.jpg",
-  "/wallpaper7.jpg",
-  "/wallpaper8.jpg",
+  "/wallpaper3.webp",
+  "/wallpaper4.webp",
+  "/wallpaper5.webp",
+  "/wallpaper6.webp",
+  "/wallpaper7.webp",
+  "/wallpaper8.webp",
 ];
 
 export default function SettingsMenu({
