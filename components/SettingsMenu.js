@@ -39,6 +39,7 @@ export default function SettingsMenu({
   const folderSizes = ["small", "medium", "large"];
   const textSizes = ["small", "medium", "large"];
 
+
   useEffect(() => {
     const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
     const height = windowHeight < 640 ? Math.min(450, windowHeight - 80) : 450;
@@ -50,6 +51,7 @@ export default function SettingsMenu({
 
   const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
   const height = windowWidth < 640 ? Math.min(450, windowHeight - 80) : 450;
+
 
   return (
     <Rnd

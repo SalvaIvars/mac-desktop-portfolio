@@ -18,6 +18,7 @@ export default function PdfViewerWindow({ onClose }) {
   useEffect(() => {
     const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
     const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
+
     setPosition({
       x: Math.max(20, (windowWidth - width) / 2),
       y: Math.max(20, (windowHeight - height) / 2),
@@ -32,6 +33,7 @@ export default function PdfViewerWindow({ onClose }) {
 
   const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
   const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
+
 
   return (
     <Rnd

@@ -20,13 +20,16 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
   }, []);
 
   useEffect(() => {
+
     const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
     const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
+
     setPosition({
       x: Math.max(20, (windowWidth - width) / 2),
       y: Math.max(20, (windowHeight - height) / 2),
     });
   }, [windowWidth, windowHeight]);
+
 
   const handleDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });
@@ -34,8 +37,10 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
 
   if (!position) return null;
 
+
   const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
   const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
+
 
   return (
     <Rnd
