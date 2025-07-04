@@ -19,7 +19,7 @@ export default function SettingsMenu({
   textSize,
   setTextSize,
 }) {
-  const [position, setPosition] = useState({ x: 150, y: 150 });
+  const [position, setPosition] = useState(null);
   const [windowWidth, setWindowWidth] = useState(
     typeof window !== "undefined" ? window.innerWidth : 1024
   );
@@ -39,8 +39,17 @@ export default function SettingsMenu({
   const folderSizes = ["small", "medium", "large"];
   const textSizes = ["small", "medium", "large"];
 
-  const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 600;
-  const height = windowWidth < 640 ? Math.min(460, windowHeight - 80) : 460;
+  useEffect(() => {
+    const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
+    const height = windowHeight < 640 ? Math.min(450, windowHeight - 80) : 450;
+    setPosition({
+      x: Math.max(20, (windowWidth - width) / 2),
+      y: Math.max(20, (windowHeight - height) / 2),
+    });
+  }, [windowWidth, windowHeight]);
+
+  const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
+  const height = windowWidth < 640 ? Math.min(450, windowHeight - 80) : 450;
 
   return (
     <Rnd
