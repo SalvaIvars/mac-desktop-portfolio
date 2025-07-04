@@ -47,17 +47,17 @@ export default function Home() {
 
   const icons = [
     { id: "about", icon: "/icons/txt.png", label: "About me.txt", defaultPosition: { x: 60, y: 80 } },
-    { id: "cv", icon: "/icons/pdf.png", label: "CV_2025.pdf", defaultPosition: { x: 60, y: 160 } },
+    { id: "cv", icon: "/icons/pdf.png", label: "CV_2025.pdf", defaultPosition: { x: 60, y: 240 } },
     {
       id: "project4",
       icon: "/icons/github.png",
       label: "GitHub",
-      defaultPosition: { x: 60, y: 320 },
+      defaultPosition: { x: 60, y: 400 },
       externalLink: "https://github.com/SalvaIvars", // Cambia aquí por tu GitHub
     },
     { id: "trash", icon: "/icons/trash.png", label: "Don't look in here", defaultPosition: { x: 60, y: 560 } },
-    { id: "settings", icon: "/icons/gear.png", label: "Settings", defaultPosition: { x: 60, y: 640 } },
-    { id: "profilePic", icon: "/icons/profilepicture_thumb.png", label: "My Photo", defaultPosition: { x: 300, y: 80 } },
+    { id: "settings", icon: "/icons/gear.png", label: "Settings", defaultPosition: { x: 60, y: 720 } },
+    { id: "profilePic", icon: "/icons/profilepicture_thumb.png", label: "My Photo", defaultPosition: { x: 260, y: 80 } },
   ];
 
   const updatePosition = (id, newPos) => {
@@ -85,11 +85,11 @@ export default function Home() {
         } else if (isMobile) {
           const col = index % 2;
           const row = Math.floor(index / 2);
-          pos = { x: 20 + col * 250, y: 150 + row * 240 };
+          pos = { x: 20 + col * 180, y: 150 + row * 200 };
         } else if (isTablet) {
           const col = index % 3;
           const row = Math.floor(index / 3);
-          pos = { x: 20 + col * 250, y: 150 + row * 240 };
+          pos = { x: 20 + col * 180, y: 150 + row * 200 };
         } else {
           pos = icon.defaultPosition;
         }
