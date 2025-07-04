@@ -1,5 +1,5 @@
 import { Rnd } from "react-rnd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const wallpapers = [
   "/wallpaper3.jpg",
@@ -20,13 +20,31 @@ export default function SettingsMenu({
   setTextSize,
 }) {
   const [position, setPosition] = useState({ x: 150, y: 150 });
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+  const [windowHeight, setWindowHeight] = useState(
+    typeof window !== "undefined" ? window.innerHeight : 768
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const folderSizes = ["small", "medium", "large"];
   const textSizes = ["small", "medium", "large"];
 
+  const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 600;
+  const height = windowWidth < 640 ? Math.min(460, windowHeight - 80) : 460;
+
   return (
     <Rnd
-      size={{ width: 600, height: 460 }}
+      size={{ width, height }}
       position={position}
       onDragStop={(e, d) => setPosition({ x: d.x, y: d.y })}
       bounds="parent"
