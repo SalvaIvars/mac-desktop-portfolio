@@ -46,14 +46,16 @@ export default function ContactWindow({ onClose }) {
       bounds="parent"
       enableResizing={false}
       className="z-50"
+      dragHandleClassName="drag-handle"
+      cancel=".no-drag"
     >
       <div className="flex flex-col w-full h-full bg-[#f2f2f2] border border-gray-300 rounded-xl shadow-md overflow-hidden font-sans">
         {/* Barra superior */}
-        <div className="flex items-center justify-between px-3 py-1 bg-[#e5e5e5] border-b border-gray-300 rounded-t-xl">
+        <div className="drag-handle flex items-center justify-between px-3 py-1 bg-[#e5e5e5] border-b border-gray-300 rounded-t-xl cursor-move">
           <div className="flex space-x-2">
-            <div className="w-3 h-3 rounded-full bg-red-500 cursor-pointer" onClick={onClose}></div>
-            <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
-            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+            <div className="no-drag w-3 h-3 rounded-full bg-red-500 cursor-pointer" onClick={onClose}></div>
+            <div className="no-drag w-3 h-3 rounded-full bg-yellow-400" onClick={onClose}></div>
+            <div className="no-drag w-3 h-3 rounded-full bg-green-500" onClick={onClose}></div>
           </div>
           <span className="text-sm text-gray-700">Contact Me</span>
           <div className="w-16" />
