@@ -24,14 +24,17 @@ export default function PdfViewerWindow({ onClose }) {
     });
   }, [windowWidth, windowHeight]);
 
+
   const handleDragStop = (e, d) => {
     setPosition({ x: d.x, y: d.y });
   };
 
   if (!position) return null;
 
+
   const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 500;
   const height = windowWidth < 640 ? Math.min(450, windowHeight - 80) : 450;
+
 
   return (
     <Rnd
