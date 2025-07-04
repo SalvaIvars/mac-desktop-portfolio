@@ -32,23 +32,25 @@ export default function SettingsMenu({
       bounds="parent"
       enableResizing={false}
       className="z-50"
+      dragHandleClassName="drag-handle"
+      cancel=".no-drag"
     >
       <div className="w-full h-full bg-[#f2f2f2] rounded-xl border border-gray-300 shadow-md flex flex-col font-sans">
         {/* Header */}
-        <div className="flex items-center justify-between bg-[#e5e5e5] border-b border-gray-300 rounded-t-xl px-3 py-2">
+        <div className="drag-handle flex items-center justify-between bg-[#e5e5e5] border-b border-gray-300 rounded-t-xl px-3 py-2 cursor-move">
           <div className="flex space-x-2">
             <div
-              className="w-3 h-3 rounded-full bg-red-500 cursor-pointer"
+              className="no-drag w-3 h-3 rounded-full bg-red-500 cursor-pointer"
               onClick={onClose} // Cerrar al pulsar botón rojo
               title="Close"
             ></div>
             <div
-              className="w-3 h-3 rounded-full bg-yellow-400 cursor-pointer"
+              className="no-drag w-3 h-3 rounded-full bg-yellow-400 cursor-pointer"
               onClick={onClose} // También cerrar con amarillo
               title="Close"
             ></div>
             <div
-              className="w-3 h-3 rounded-full bg-green-500 cursor-pointer"
+              className="no-drag w-3 h-3 rounded-full bg-green-500 cursor-pointer"
               onClick={onClose} // Y con verde también
               title="Close"
             ></div>
