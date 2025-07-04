@@ -16,8 +16,9 @@ export default function PdfViewerWindow({ onClose }) {
   }, []);
 
   useEffect(() => {
-    const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
-    const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
+    // Tamaño igual que TextEditWindow para mejor consistencia
+    const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 600;
+    const height = windowWidth < 640 ? Math.min(520, windowHeight - 80) : 520;
 
     setPosition({
       x: Math.max(20, (windowWidth - width) / 2),
@@ -31,16 +32,15 @@ export default function PdfViewerWindow({ onClose }) {
 
   if (!position) return null;
 
-  const width = windowWidth < 640 ? Math.min(450, windowWidth - 40) : 450;
-  const height = windowWidth < 640 ? Math.min(420, windowHeight - 80) : 420;
-
+  const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 600;
+  const height = windowWidth < 640 ? Math.min(520, windowHeight - 80) : 520;
 
   return (
     <Rnd
       position={position}
       size={{ width, height }}
-      minWidth={400}
-      minHeight={300}
+      minWidth={300}
+      minHeight={200}
       bounds="parent"
       onDragStop={handleDragStop}
       className="z-50"
@@ -54,23 +54,24 @@ export default function PdfViewerWindow({ onClose }) {
           <div className="flex space-x-2">
             <div
               className="no-drag w-3 h-3 rounded-full bg-red-500 cursor-pointer"
-              onClick={onClose} // Cerrar ventana al pulsar botón rojo
+              onClick={onClose}
+              title="Close"
             />
-            <div className="no-drag w-3 h-3 rounded-full bg-yellow-400 cursor-pointer" onClick={onClose} />
-            <div className="no-drag w-3 h-3 rounded-full bg-green-500 cursor-pointer" onClick={onClose} />
+            <div className="no-drag w-3 h-3 rounded-full bg-yellow-400 cursor-pointer" onClick={onClose} title="Minimize" />
+            <div className="no-drag w-3 h-3 rounded-full bg-green-500 cursor-pointer" onClick={onClose} title="Maximize" />
           </div>
-          <span className="text-sm text-gray-700">CV_2025.pdf</span>
+          <span className="text-sm text-gray-700 select-none">CV_2025.pdf</span>
           <div className="w-16" />
         </div>
 
         {/* PDF Viewer */}
-        <div className="flex-1">
+        <div className="flex-1 overflow-hidden">
           <iframe
             src="/pdfs/CV_2025.pdf"
-            className="w-full h-full"
             title="PDF Viewer"
             frameBorder="0"
-            style={{ overflow: "hidden" }}
+            className="w-full h-full"
+            style={{ objectFit: "contain", display: "block" }}
           />
         </div>
       </div>
