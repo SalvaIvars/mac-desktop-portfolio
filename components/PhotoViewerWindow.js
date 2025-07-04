@@ -4,6 +4,21 @@ import { Rnd } from "react-rnd";
 export default function PhotoViewerWindow({ onClose, photoSrc }) {
   const storageKey = "window-pos-photoViewer";
   const [position, setPosition] = useState(null);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+  const [windowHeight, setWindowHeight] = useState(
+    typeof window !== "undefined" ? window.innerHeight : 768
+  );
+
+  useEffect(() => {
+    const updateWindowSize = () => {
+      setWindowWidth(window.innerWidth);
+      setWindowHeight(window.innerHeight);
+    };
+    window.addEventListener("resize", updateWindowSize);
+    return () => window.removeEventListener("resize", updateWindowSize);
+  }, []);
 
   useEffect(() => {
     const saved = localStorage.getItem(storageKey);
@@ -31,10 +46,13 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
 
   if (!position) return null;
 
+  const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 600;
+  const height = windowWidth < 640 ? Math.min(500, windowHeight - 80) : 600;
+
   return (
     <Rnd
       position={position}
-      size={{ width: 600, height: 600 }}
+      size={{ width, height }}
       minWidth={400}
       minHeight={400}
       bounds="parent"
