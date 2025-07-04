@@ -17,6 +17,9 @@ export default function DesktopIcon({
   const pointerDownPos = useRef({ x: 0, y: 0 });
   const clickAllowed = useRef(true);
 
+  const navbarHeight =
+    typeof window !== "undefined" && window.innerWidth >= 768 ? 80 : 64;
+
   const handleDragStart = (e, data) => {
     dragging.current = true;
     clickAllowed.current = true;
@@ -34,7 +37,9 @@ export default function DesktopIcon({
 
     clickAllowed.current = !moved;
 
-    onPositionChange({ x: data.x, y: data.y });
+    const clampedY = Math.max(data.y, navbarHeight);
+
+    onPositionChange({ x: data.x, y: clampedY });
   };
 
   // Pointer events
@@ -112,7 +117,7 @@ export default function DesktopIcon({
       onDragStart={handleDragStart}
       onDragStop={handleDragStop}
       enableResizing={false}
-      bounds={isMobile ? "window" : "parent"}
+      bounds={isMobile ? { top: navbarHeight, left: 0, right: 0, bottom: 0 } : { top: navbarHeight, left: 0, right: 0, bottom: 0 }}
       style={{ position: "absolute", cursor: dragging.current ? "grabbing" : "grab" }}
     >
       <div
