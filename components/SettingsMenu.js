@@ -39,8 +39,8 @@ export default function SettingsMenu({
   const folderSizes = ["small", "medium", "large"];
   const textSizes = ["small", "medium", "large"];
 
-  const width = windowWidth < 640 ? Math.min(500, windowWidth - 40) : 600;
-  const height = windowWidth < 640 ? Math.min(460, windowHeight - 80) : 460;
+  const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 600;
+  const height = windowWidth < 640 ? Math.min(520, windowHeight - 80) : 520;
 
   return (
     <Rnd

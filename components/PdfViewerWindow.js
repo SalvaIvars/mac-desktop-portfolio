@@ -30,8 +30,8 @@ export default function PdfViewerWindow({ onClose }) {
         setPosition({ x: 200, y: 150 });
       }
     } else {
-      const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 800;
-      const height = windowWidth < 640 ? Math.min(500, windowHeight - 80) : 600;
+      const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 600;
+      const height = windowWidth < 640 ? Math.min(520, windowHeight - 80) : 520;
       setPosition({
         x: Math.max(20, (windowWidth - width) / 2),
         y: Math.max(20, (windowHeight - height) / 2),
@@ -47,8 +47,8 @@ export default function PdfViewerWindow({ onClose }) {
 
   if (!position) return null;
 
-  const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 800;
-  const height = windowWidth < 640 ? Math.min(500, windowHeight - 80) : 600;
+  const width = windowWidth < 640 ? Math.min(600, windowWidth - 40) : 600;
+  const height = windowWidth < 640 ? Math.min(520, windowHeight - 80) : 520;
 
   return (
     <Rnd
