@@ -14,7 +14,7 @@ export default function Home() {
 
   const [windowWidth, setWindowWidth] = useState(0);
   const [positions, setPositions] = useState({});
-  const [wallpaper, setWallpaper] = useState("/wallpaper3.JPG");
+  const [wallpaper, setWallpaper] = useState("/wallpaper3.jpg");
   const [folderSize, setFolderSize] = useState("medium");
   const [textSize, setTextSize] = useState("medium");
 
@@ -35,7 +35,7 @@ export default function Home() {
 
     if (isDesktop) {
       const savedPositions = {};
-      ["about", "cv", "project3", "project4", "project1", "trash", "settings", "profilePic"].forEach((id) => {
+      ["about", "cv", "project4", "trash", "settings", "profilePic"].forEach((id) => {
         const saved = localStorage.getItem(`icon-pos-${id}`);
         if (saved) savedPositions[id] = JSON.parse(saved);
       });
@@ -48,7 +48,6 @@ export default function Home() {
   const icons = [
     { id: "about", icon: "/icons/txt.png", label: "About me.txt", defaultPosition: { x: 60, y: 80 } },
     { id: "cv", icon: "/icons/pdf.png", label: "CV_2025.pdf", defaultPosition: { x: 60, y: 160 } },
-    { id: "project3", icon: "/icons/folder.png", label: "Project 3", defaultPosition: { x: 60, y: 240 } },
     {
       id: "project4",
       icon: "/icons/github.png",
@@ -56,7 +55,6 @@ export default function Home() {
       defaultPosition: { x: 60, y: 320 },
       externalLink: "https://github.com/SalvaIvars", // Cambia aquí por tu GitHub
     },
-    { id: "project1", icon: "/icons/folder.png", label: "Project 1", defaultPosition: { x: 60, y: 400 } },
     { id: "trash", icon: "/icons/trash.png", label: "Don't look in here", defaultPosition: { x: 60, y: 560 } },
     { id: "settings", icon: "/icons/gear.png", label: "Settings", defaultPosition: { x: 60, y: 640 } },
     { id: "profilePic", icon: "/icons/profilepicture_thumb.png", label: "My Photo", defaultPosition: { x: 300, y: 80 } },
@@ -77,7 +75,7 @@ export default function Home() {
       className="relative w-full h-screen bg-cover bg-center overflow-x-hidden overflow-y-auto"
       style={{ backgroundImage: `url(${wallpaper})` }}
     >
-      <Navbar />
+      <Navbar onInformation={() => setShowAbout(true)} />
 
       {icons.map((icon, index) => {
         let pos;
