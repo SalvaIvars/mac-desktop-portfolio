@@ -41,18 +41,20 @@ export default function PhotoViewerWindow({ onClose, photoSrc }) {
       onDragStop={handleDragStop}
       className="z-50"
       enableResizing={false}
+      dragHandleClassName="drag-handle"
+      cancel=".no-drag"
     >
       <div className="w-full h-full flex flex-col bg-black rounded-xl overflow-hidden">
         {/* Barra superior estilo macOS */}
-        <div className="flex items-center justify-between px-3 py-1 bg-[#e5e5e5] border-b border-gray-300 rounded-t-xl select-none">
+        <div className="drag-handle flex items-center justify-between px-3 py-1 bg-[#e5e5e5] border-b border-gray-300 rounded-t-xl select-none cursor-move">
           <div className="flex space-x-2">
             <div
-              className="w-3 h-3 rounded-full bg-red-500 cursor-pointer"
+              className="no-drag w-3 h-3 rounded-full bg-red-500 cursor-pointer"
               onClick={onClose} // Cerrar ventana al pulsar botón rojo
               title="Close"
             />
-            <div className="w-3 h-3 rounded-full bg-yellow-400 cursor-pointer" onClick={onClose} title="Close" />
-            <div className="w-3 h-3 rounded-full bg-green-500 cursor-pointer" onClick={onClose} title="Close" />
+            <div className="no-drag w-3 h-3 rounded-full bg-yellow-400 cursor-pointer" onClick={onClose} title="Close" />
+            <div className="no-drag w-3 h-3 rounded-full bg-green-500 cursor-pointer" onClick={onClose} title="Close" />
           </div>
           <span className="text-sm text-gray-700 select-none">My Photo</span>
           <div className="w-16" />
