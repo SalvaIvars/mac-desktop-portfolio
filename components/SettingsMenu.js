@@ -2,6 +2,7 @@ import { Rnd } from "react-rnd";
 import { useState, useEffect } from "react";
 
 const wallpapers = [
+  "/wallpaper1.webp",
   "/wallpaper3.webp",
   "/wallpaper4.webp",
   "/wallpaper5.webp",
